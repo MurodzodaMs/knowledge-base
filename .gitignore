@@ -1,0 +1,5 @@
+.venv 
+media 
+.vscode 
+db.sqlite3
+.env
