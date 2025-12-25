@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Course</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+
+{% block aside %}
+    {% for chapter in chapters %}
+        {% for lesson in lessons %}
+            <a href=""><button> {{lesson.title}} </button></a>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+
+{% block main %}
+    {{data.page}}
+{% endblock %}

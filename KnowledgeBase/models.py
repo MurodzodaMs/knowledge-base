@@ -1,36 +1,64 @@
+from typing import Iterable
 from django.db import models
-
-
+from django.utils.text import slugify
 
 
 
 class Category(models.Model):
     title = models.CharField(max_length=50)
-    description = models.TextField()
+    is_active = models.BooleanField(default=True)
+    slug = models.SlugField(unique=True, blank=True)
 
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+    
+    
     def __str__(self) -> str:
         return self.title
+
+
 
 class Course(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
+    
+
 
     def __str__(self) -> str:
         return self.title
+
+
 
 class Chapter(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     order = models.SmallIntegerField()
     title = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.title
+
 
 
 class Lesson(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     order = models.SmallIntegerField()
     title = models.CharField(max_length=150)
+    is_active = models.BooleanField(default=True)
+    
+
+    def __str__(self) -> str:
+        return self.title
+
 
 
 class Page(models.Model):
@@ -46,4 +74,6 @@ class Block(models.Model):
     type = models.CharField(max_length=50)
     comment = models.TextField(null=True, blank=True)
     media = models.ImageField(null=True, blank=True)
+
+
 

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+
+{% block aside %}
+    {% for course in courses %}
+    {% if course.category == data %}
+    <a href=""><button> {{course.title}} </button></a>
+    {% endif %}
+    {% endfor %}
+{% endblock %}
+
+
+{% block main %}
+    {{page}}
+{% endblock %}
