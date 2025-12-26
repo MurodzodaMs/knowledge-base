@@ -23,7 +23,7 @@ class Category(models.Model):
 class Course(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(blank=True)
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs) -> None:
@@ -32,6 +32,13 @@ class Course(models.Model):
         return super().save(*args, **kwargs)
     
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['category', 'slug'],
+                name='unique_course_slug_per_category'
+            )
+        ]
 
     def __str__(self) -> str:
         return self.title
@@ -65,7 +72,12 @@ class Page(models.Model):
     # type = models.CharField(max_length=50)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
-
+    
+    def __str__(self) -> str:
+        if self.lesson:
+            return self.lesson.title
+        else:
+            return self.category.title
 
 
 class Block(models.Model):

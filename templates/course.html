@@ -9,8 +9,11 @@
 
 {% block aside %}
     {% for chapter in chapters %}
+        <a href=""><button class="chapter"> {{chapter.title}} </button></a>
         {% for lesson in lessons %}
-            <a href=""><button> {{lesson.title}} </button></a>
+                    {% if lesson.chapter == chapter %}
+                    <a href=""><button> {{lesson.title}} </button></a>
+                    {% endif %}
         {% endfor %}
     {% endfor %}
 {% endblock %}
