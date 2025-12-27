@@ -8,7 +8,7 @@
 
 {% block aside %}
     {% for category in categories %}
-    <a href=""><button> {{category.title}} </button></a>
+    <a href="{% url 'category' category.slug %}"><button> {{category.title}} </button></a>
     {% endfor %}
 {% endblock aside %}
 

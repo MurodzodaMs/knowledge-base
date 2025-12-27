@@ -10,7 +10,7 @@
 {% block aside %}
     {% for course in courses %}
     {% if course.category == data %}
-    <a href=""><button> {{course.title}} </button></a>
+    <a href="{% url 'course' course.category.slug course.slug %}"><button> {{course.title}} </button></a>
     {% endif %}
     {% endfor %}
 {% endblock %}

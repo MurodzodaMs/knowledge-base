@@ -12,7 +12,7 @@
         <a href=""><button class="chapter"> {{chapter.title}} </button></a>
         {% for lesson in lessons %}
                     {% if lesson.chapter == chapter %}
-                    <a href=""><button> {{lesson.title}} </button></a>
+                    <a href="{% url 'lesson' chapter.course.category.slug chapter.course.slug chapter.order lesson.order %}"><button> {{lesson.title}} </button></a>
                     {% endif %}
         {% endfor %}
     {% endfor %}

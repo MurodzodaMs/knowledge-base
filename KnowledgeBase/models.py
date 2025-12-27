@@ -12,7 +12,11 @@ class Category(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
+        # Ensure a Page exists for this category, but avoid duplicates
+        if not Page.objects.filter(category=self).exists():
+            Page.objects.create(category=self)
     
     
     def __str__(self) -> str:
@@ -26,7 +30,7 @@ class Course(models.Model):
     slug = models.SlugField(blank=True)
     is_active = models.BooleanField(default=True)
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
@@ -55,6 +59,18 @@ class Chapter(models.Model):
         return self.title
 
 
+class Page(models.Model):
+    # type = models.CharField(max_length=50)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE, null=True, blank=True)
+    
+    def __str__(self) -> str:
+        if self.lesson:
+            return self.lesson.title
+        if self.category:
+            return self.category.title
+        return 'Page'
+
 
 class Lesson(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
@@ -63,21 +79,18 @@ class Lesson(models.Model):
     is_active = models.BooleanField(default=True)
     
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Ensure a Page exists for this lesson, but avoid duplicates
+        if not Page.objects.filter(lesson=self).exists():
+            Page.objects.create(lesson=self)
+    
+
     def __str__(self) -> str:
         return self.title
 
 
 
-class Page(models.Model):
-    # type = models.CharField(max_length=50)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
-    
-    def __str__(self) -> str:
-        if self.lesson:
-            return self.lesson.title
-        else:
-            return self.category.title
 
 
 class Block(models.Model):
