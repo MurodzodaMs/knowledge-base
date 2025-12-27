@@ -14,7 +14,6 @@ class Category(models.Model):
             self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
-        # Ensure a Page exists for this category, but avoid duplicates
         if not Page.objects.filter(category=self).exists():
             Page.objects.create(category=self)
     
@@ -81,7 +80,6 @@ class Lesson(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # Ensure a Page exists for this lesson, but avoid duplicates
         if not Page.objects.filter(lesson=self).exists():
             Page.objects.create(lesson=self)
     

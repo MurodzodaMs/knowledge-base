@@ -190,63 +190,11 @@ class BlockUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'lesson.html'
     fields = ['type', 'comment', 'media']
 
-    def get_success_url(self):
-        return reverse('lesson', kwargs={
-            'category_slug': self.kwargs['category_slug'],
-            'course_slug': self.kwargs['course_slug'],
-            'chapter': self.kwargs['chapter'],
-            'lesson': self.kwargs['lesson'],
-        })
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Update Block'
-        context['page'] = self.object.page
-        return context
 
 
-class BlockDeleteView(LoginRequiredMixin, generic.TemplateView):
+class BlockDeleteView(LoginRequiredMixin, generic.DeleteView):
     login_url = 'home'
     template_name = 'lesson.html'
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = 'Delete Block'
-#         context['categories'] = Category.objects.all()
-#         context['course'] = Course.objects.filter(
-#             slug=self.kwargs['course_slug']).first()
-#         context['chapters'] = Chapter.objects.filter(course=context['course'])
-#         context['lessons'] = Lesson.objects.filter(
-#             chapter__in=context['chapters'])
-#         context['page'] = Page.objects.get(
-#             lesson__chapter__course__category__slug=self.kwargs['category_slug'],
-#             lesson__chapter__course__slug=self.kwargs['course_slug'],
-#             lesson__chapter__order=self.kwargs['chapter'],
-#             lesson__order=self.kwargs['lesson'],
-#         )
-#         context['blocks'] = Block.objects.filter(page=context['page'])
-#         context['group'] = self.request.user.groups.first().name
-#         return context
-
-#     def get_success_url(self):
-#         return reverse('lesson', kwargs={
-#             'category_slug': self.kwargs['category_slug'],
-#             'course_slug': self.kwargs['course_slug'],
-#             'chapter': self.kwargs['chapter'],
-#             'lesson': self.kwargs['lesson'],
-#         })
 
 
-class BlockDeleteActionView(LoginRequiredMixin, generic.DeleteView):
-    login_url = 'home'
-    model = Block
-    template_name = 'lesson.html'
-
-#     def get_success_url(self):
-#         page = self.object.page
-#         return reverse('lesson', kwargs={
-#             'category_slug': page.lesson.chapter.course.category.slug,
-#             'course_slug': page.lesson.chapter.course.slug,
-#             'chapter': page.lesson.chapter.order,
-#             'lesson': page.lesson.order,
-#         })
