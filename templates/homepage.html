@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock head %}
+
+
+{% block aside %}
+    {% for category in categories %}
+    <a href="{% url 'category' category.slug %}"><button> {{category.title}} </button></a>
+    {% endfor %}
+{% endblock aside %}
+
+
+{% block main %}
+    <p>About site</p>   
+
+        {% if user.groups.all.0.name == 'Admin' %}
+        <a href="{% url 'create_cat' %}"><button>Add Category</button></a>
+        <a href="{% url 'create_course' %}"><button>Add Course</button></a>
+        <a href="{% url 'create_chapter' %}"><button>Add Chapter</button></a>
+        <a href="{% url 'create_lesson' %}"><button>Add Lesson</button></a>
+        {% endif %}
+{% endblock %}

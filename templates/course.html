@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Course</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+
+{% block aside %}
+    {% for chapter in chapters %}
+        <button class="chapter"> {{chapter.title}} </button>
+        {% for lesson in lessons %}
+                    {% if lesson.chapter == chapter %}
+                    <a href="{% url 'lesson' chapter.course.category.slug chapter.course.slug chapter.order lesson.order %}"><button> {{lesson.title}} </button></a>
+                    {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+
+{% block main %}
+<style>
+    *{
+        margin: 0px;
+    }
+
+    section .chapter{
+        margin-bottom: 5px;
+    }
+
+    main section{
+        /* width: 70%; */
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+    {% for chapter in chapters %}
+        <h3 class="chapter"> {{chapter.title}} </h3>
+        <ul>
+            {% for lesson in lessons %}
+                {% if lesson.chapter == chapter %}
+                <a href="{% url 'lesson' chapter.course.category.slug chapter.course.slug chapter.order lesson.order %}"><li> {{lesson.title}} </li></a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

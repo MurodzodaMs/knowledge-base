@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav class="">
+            <h2>Knowledge Base</h2>
+            <div>
+                {% if user.is_authenticated %}
+                <p style="color: white ; font-weight: 800; font-size: 18px;"> {{user.username}} </p>
+                <a href="{% url 'logout' %}"><button>Logout</button></a>
+                {% else %}
+                <a href="{% url 'register' %}"><button>Register</button></a>
+                <a href="{% url 'login' %}"><button>Login</button></a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <section>
+            <a href="{% url 'home' %}"><Button>Home</Button></a>
+            {% for category in categories %}
+            <a href="{% url 'category' category.slug %}"> <button>{{category.title}} </button></a>
+            {% endfor %}
+        </section>
+    </header>
+
+    <main>
+        <aside>
+            {% block aside %}
+            {% endblock %}
+        </aside>
+
+        <section>
+            {% block main %}
+            {% endblock %}
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            {% if title == 'Register' %}
+            <a href="{% url 'login' %}">Login</a>
+            {% else %}
+            <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main style="display: flex; flex-direction: column; align-items: center; max-width: 500px;">
+        {% if title %}<h1>{{title}} </h1>{% endif %}
+
+        <form method="post">{% csrf_token %}
+            {{form.as_p}}
+            <button type="submit">{{title}}</button>
+        </form>
+    </main>
+</body>
+
+</html>
