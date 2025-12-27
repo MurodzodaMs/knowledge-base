@@ -17,5 +17,48 @@
 
 
 {% block main %}
-    {{page}}
+    
+{% for block in blocks %}
+<!-- <p>{{block.order}}</p> -->
+{% if block.type == 'p' %} <p>{{block.comment}}</p>{% endif %}
+{% if block.type == 'span' %} <span>{{block.comment}}</span>{% endif %}
+{% if block.type == 'h1' %} <h1>{{block.comment}}</h1>{% endif %}
+{% if block.type == 'h2' %} <h2>{{block.comment}}</h2>{% endif %}
+{% if block.type == 'h3' %} <h3>{{block.comment}}</h3>{% endif %}
+{% if block.type == 'h4' %} <h4>{{block.comment}}</h4>{% endif %}
+{% if block.type == 'h5' %} <h5>{{block.comment}}</h5>{% endif %}
+{% if block.type == 'h6' %} <h6>{{block.comment}}</h6>{% endif %}
+{% if block.type == 'strong' %} <strong>{{block.comment}}</strong>{% endif %}
+{% if block.type == 'img' %} <img src="{{block.media.url}}" style="width: 80%;" alt="">{% endif %}
+{% if block.type == 'br' %} <br>{% endif %}
+{% if title == 'Delete Block' %}
+<form method="POST" action="{% url 'delete_block_action' block.id %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" style="background-color: var(--accent-color);">Delete</button>
+</form>
+{% endif %}
+
+{% endfor %}
+
+{% if title == 'Add Block' or title == 'Update Block' %}
+<br><br>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Save</button>
+</form>
+{% else %}
+<br><br>
+{% if group == 'Admin' %}
+<a
+    href="{% url 'add_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Add
+        Block</button></a>
+<a
+    href="{% url 'delete_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Delete
+        Block</button></a>
+<a
+    href="{% url 'edit_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Edit
+        Block</button></a>
+{% endif %}
+{% endif %}
 {% endblock %}

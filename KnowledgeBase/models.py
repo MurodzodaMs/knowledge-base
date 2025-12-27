@@ -34,7 +34,6 @@ class Course(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
-    
 
     class Meta:
         constraints = [
@@ -57,6 +56,7 @@ class Chapter(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
 
 
 class Page(models.Model):

@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Base</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block head %}
     {% endblock %}
 </head>
@@ -16,22 +17,17 @@
             <h2>Knowledge Base</h2>
             <div>
                 {% if user.is_authenticated %}
-                <p> {{user.username}} </p>
+                <p style="color: white ; font-weight: 800; font-size: 18px;"> {{user.username}} </p>
                 <a href="{% url 'logout' %}"><button>Logout</button></a>
                 {% else %}
                 <a href="{% url 'register' %}"><button>Register</button></a>
                 <a href="{% url 'login' %}"><button>Login</button></a>
                 {% endif %}
             </div>
-            <div>
-                <form method="get" action="">
-                    <label for="id_search">Search</label>
-                    <input id="id_search" type="text" name="search" placeholder="Search...">
-                </form>
-            </div>
         </nav>
 
         <section>
+            <a href="{% url 'home' %}"><Button>Home</Button></a>
             {% for category in categories %}
             <a href="{% url 'category' category.slug %}"> <button>{{category.title}} </button></a>
             {% endfor %}
