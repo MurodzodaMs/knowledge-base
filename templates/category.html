@@ -8,16 +8,41 @@
 
 
 {% block aside %}
-    {% for course in courses %}
-    {% if course.category == data %}
-    <a href="{% url 'course' course.category.slug course.slug %}"><button> {{course.title}} </button></a>
-    {% endif %}
-    {% endfor %}
+{% for course in courses %}
+{% if course.category == data %}
+<a href="{% url 'course' course.category.slug course.slug %}"><button> {{course.title}} </button></a>
+{% endif %}
+{% endfor %}
+
+{% if user.groups.all.0.name == 'Admin' %}
+<br><br>
+<div>
+    <a href="{% url 'delete_category' data.id %}">
+        <button style="
+        border: none;
+        background-color: rgb(224, 30, 30);
+        color: white;
+        border-radius: 10px;">
+            Delete Category
+        </button>
+    </a>
+    <br>
+    <a href="{% url 'update_category' data.id %}">
+        <button style="
+        border: none;
+        background-color: rgb(30, 156, 224);
+        color: white;
+        border-radius: 10px;">
+            Update Category
+        </button>
+    </a>
+</div>
+{% endif %}
 {% endblock %}
 
 
 {% block main %}
-    
+
 {% for block in blocks %}
 <!-- <p>{{block.order}}</p> -->
 {% if block.type == 'p' %} <p>{{block.comment}}</p>{% endif %}

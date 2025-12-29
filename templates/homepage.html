@@ -7,19 +7,34 @@
 
 
 {% block aside %}
-    {% for category in categories %}
-    <a href="{% url 'category' category.slug %}"><button> {{category.title}} </button></a>
-    {% endfor %}
+{% for category in categories %}
+<a href="{% url 'category' category.slug %}"><button> {{category.title}} </button></a>
+{% endfor %}
 {% endblock aside %}
 
 
 {% block main %}
-    <p>About site</p>   
 
-        {% if user.groups.all.0.name == 'Admin' %}
-        <a href="{% url 'create_cat' %}"><button>Add Category</button></a>
-        <a href="{% url 'create_course' %}"><button>Add Course</button></a>
-        <a href="{% url 'create_chapter' %}"><button>Add Chapter</button></a>
-        <a href="{% url 'create_lesson' %}"><button>Add Lesson</button></a>
-        {% endif %}
+<h2>О Сайте</h2>
+<p>Данный сайт посвящен различным языкам и технологиям программирования, компьютерам, мобильным платформам и
+    ИТ-технологиям. Здесь будут выкладываться различные руководства и учебные материалы, статьи и примеры</p>
+<br>
+<p>На сайте можно найти материалы по таким направлениям, как язык C# и семейство технологий .NET (ASP.NET, WPF, Entity
+    Framework и т.д.), C/C++, технологии на базе Java ( Java SE, программирование под ОС Андроид и т.д.), Python, Dart
+    (в том числе Flutter), Kotlin (Android), язык Go, работа с базами данных (MS SQL Server, MySQL, MongoDB) а также
+    WEB-технологии, такие как HTML5, AJAX, jQuery, Node.js, ExtJS, Angular, React и др.</p>
+<br>
+<p>Поскольку жизнь не стоит на месте, все материалы по возможности дополняются и обновляются, чтобы соответствовать духу
+    времени и не терять своей актуальности.</p>
+<br>
+
+<p>Спасибо за посещение сайта.</p>
+{% if user.groups.all.0.name == 'Admin' %}
+<div>
+    <a href="{% url 'create_cat' %}"><button>Add Category</button></a>
+    <a href="{% url 'create_course' %}"><button>Add Course</button></a>
+    <a href="{% url 'create_chapter' %}"><button>Add Chapter</button></a>
+    <a href="{% url 'create_lesson' %}"><button>Add Lesson</button></a>
+</div>
+{% endif %}
 {% endblock %}
