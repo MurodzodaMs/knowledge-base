@@ -11,11 +11,27 @@
 
 
 {% block main %}
-    <h1>{{title}} </h1>
+<h1>{{title}} </h1>
 
-    <form method="post">
+{% if action == 'add' or action == 'Update' %}
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">
+        {{action}}
+    </button>
+</form>
+
+{% elif action == 'delete' %}
+<h3>do you want to delete it?</h3>
+<div style="display: flex; gap: 50px;">
+    <a href="{% url 'home' %}"><button>Home</button></a>
+    <form method="post" style="border: none; padding: 0px;">
         {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Add</button>
+        <button type="submit" style="background-color: rgb(224, 30, 30);">
+            {{action}}
+        </button>
     </form>
+</div>
+{% endif %}
 {% endblock %}

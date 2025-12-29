@@ -23,6 +23,7 @@
 {% block main %}
 <h1>{{page.lesson.title}} </h1>
 
+
 {% for block in blocks %}
 <!-- <p>{{block.order}}</p> -->
 {% if block.type == 'p' %} <p>{{block.comment}}</p>{% endif %}
@@ -34,16 +35,18 @@
 {% if block.type == 'h5' %} <h5>{{block.comment}}</h5>{% endif %}
 {% if block.type == 'h6' %} <h6>{{block.comment}}</h6>{% endif %}
 {% if block.type == 'strong' %} <strong>{{block.comment}}</strong>{% endif %}
-{% if block.type == 'img' %} <img src="{{block.media.url}}" style="width: 80%;" alt="">{% endif %}
 {% if block.type == 'br' %} <br>{% endif %}
-{% if title == 'Delete Block' %}
-<form method="POST" action="{% url 'delete_block_action' block.id %}" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" style="background-color: var(--accent-color);">Delete</button>
-</form>
+{% if block.type == 'img' %} <img src="{{block.media.url}}" style="width: 80%;" alt="">{% endif %}
+{% if group == 'Admin' %}
+<div>
+    <a href="{% url 'delete_block' block.id %}"><button type="submit"
+            style="background-color: rgb(205, 2, 2)">Delete</button></a>
+    <a href="{% url 'update_block' block.id %}"><button type="submit">Update</button></a>
+</div>
+<br><br>
 {% endif %}
-
 {% endfor %}
+
 
 {% if title == 'Add Block' or title == 'Update Block' %}
 <br><br>
@@ -52,18 +55,31 @@
     {{form.as_p}}
     <button type="submit">Save</button>
 </form>
+{% elif title == "Delete Block" %}
+<h3>Do you want to delete this block?</h3>
+<p>{{block.page}}</p>
+<div style="display: flex; gap: 20px;">
+    <a href="{% url 'lesson' category course chapter lesson %}">
+        <button>Back</button>
+    </a>
+    <form method="post" style="border: none; padding: 0px;"> {% csrf_token %}
+        <button style="background-color: rgb(224, 30, 30);" type="submit">Delete</button>
+    </form>
+</div>
 {% else %}
+
 <br><br>
 {% if group == 'Admin' %}
 <a
-    href="{% url 'add_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Add
-        Block</button></a>
-<a
-    href="{% url 'delete_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Delete
-        Block</button></a>
-<a
-    href="{% url 'edit_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}"><button>Edit
-        Block</button></a>
+    href="{% url 'create_block' page.lesson.chapter.course.category.slug page.lesson.chapter.course.slug page.lesson.chapter.order page.lesson.order %}">
+    <button>Add Block</button>
+</a>
+<a href="{% url 'delete_lesson' page.lesson.id %}"><button style="background-color: rgb(224, 30, 30);">Delete lesson</button></a>
+<a href="{% url 'update_lesson' page.lesson.id %}"><button style="background-color: rgb(30, 156, 224);">Update lesson</button></a>
 {% endif %}
-{% endif %}
+{% endif %} 
+
+
+
+
 {% endblock %}
